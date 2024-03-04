@@ -2,20 +2,29 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import { RetellWebClient } from "retell-client-js-sdk";
 
-const agentId = "YOUR_AGENT_ID";
-
+const agentId = "9431057b13a08f1809596ee71a1e3266";
+const url = "://f7ec-103-21-124-76.ngrok-free.app";
 interface RegisterCallResponse {
   callId?: string;
   sampleRate: number;
 }
 
 const webClient = new RetellWebClient();
+const conversation = [{'role':'agent','content':'Red is the Assitant transcription'},{'role':'user','content':'Blue is Your transcription'}];
 
 const App = () => {
   const [isCalling, setIsCalling] = useState(false);
+  const [convo, setConvo] = useState<any>(null);
+  const [selectedModel, setSelectedModel] = useState("llama2-70b-4096");
 
+  const handleModelChange = (event) => {
+  setSelectedModel(event.target.value);
+  };
+  // const [times, setTimes] = useState<any>(null);
   // Initialize the SDK
   useEffect(() => {
+    setConvo(conversation)
+    // setTimes(end_times)
     // Setup event listeners
     webClient.on("conversationStarted", () => {
       console.log("conversationStarted");
@@ -36,8 +45,15 @@ const App = () => {
     });
 
     webClient.on("update", (update) => {
-      // Print live transcript as needed
-      console.log("update", update);
+      console.log(update)
+      setConvo(update.transcript);
+      // if (update.transcript.length - prev_len === 1){
+      //   const currentTimestampInSeconds = Math.floor(Date.now() / 1000);
+      //   const update_times = [...times, currentTimestampInSeconds] ;
+      //   setTimes(update_times);
+      //   prev_len +=1
+      // }
+      // console.log(times)
     });
   }, []);
 
@@ -45,6 +61,7 @@ const App = () => {
     if (isCalling) {
       webClient.stopConversation();
     } else {
+      updateModel(selectedModel)
       const registerCallResponse = await registerCall(agentId);
       if (registerCallResponse.callId) {
         webClient
@@ -63,7 +80,7 @@ const App = () => {
     try {
       // Replace with your server url
       const response = await fetch(
-        "http://localhost:8080/register-call-on-your-server",
+        "https"+ url + "/register-call",
         {
           method: "POST",
           headers: {
@@ -86,13 +103,48 @@ const App = () => {
       throw new Error(err);
     }
   }
+  // Example API call to update the model
+  const updateModel = async (model) => {
+    try {
+      const response = await fetch("https"+ url + "/update-modlel", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ model: model, }),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to update model");
+      }
+      // Handle success
+    } catch (error) {
+      console.error("Error updating model:", error);
+    }
+  };
 
   return (
     <div className="App">
+      <h2>On call with Taha about Phonepe</h2>
+      <select onChange={handleModelChange}>
+        <option value="llama2-70b-4096">Llama-70b</option>
+        <option value="gpt-4-1106-preview">GPT-4</option>
+        <option value="mixtral-8x7b-32768">Mixtral</option>
+      </select>
       <header className="App-header">
         <button onClick={toggleConversation}>
           {isCalling ? "Stop" : "Start"}
         </button>
+        <ul>
+        {convo && convo.map((message,index) =>(
+          <li key={index}>
+            {message.role === "agent"?(
+              <span style={{color: "red"}}>{message.content}</span> ):(
+              <span style={{color: "blue"}}>{message.content}</span>
+            )}
+          </li>
+        ))
+        }
+      </ul>
       </header>
     </div>
   );
