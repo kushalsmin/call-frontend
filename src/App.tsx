@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import { RetellWebClient } from "retell-client-js-sdk";
 
-const agentId = "9431057b13a08f1809596ee71a1e3266";
+const agentId = "002625060a952e8658b36b09a2c0c9a1";
 const url = "://6213-103-21-124-76.ngrok-free.app";
 interface RegisterCallResponse {
   callId?: string;
@@ -106,7 +106,7 @@ const App = () => {
   // Example API call to update the model
   const updateModel = async (model) => {
     try {
-      const response = await fetch("https"+ url + "/update-modlel", {
+      const response = await fetch("https"+ url + "/update-model", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
