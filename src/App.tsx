@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import { RetellWebClient } from "retell-client-js-sdk";
 
-const agentId = "002625060a952e8658b36b09a2c0c9a1";
-const url = "://6213-103-21-124-76.ngrok-free.app";
+const agentId = "2bdf374f49ace95727f1f9f5b39f539b";
+const url = "://8e25-103-21-124-76.ngrok-free.";
 interface RegisterCallResponse {
   callId?: string;
   sampleRate: number;
