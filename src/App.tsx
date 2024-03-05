@@ -3,7 +3,7 @@ import "./App.css";
 import { RetellWebClient } from "retell-client-js-sdk";
 
 const agentId = "2bdf374f49ace95727f1f9f5b39f539b";
-const url = "://8e25-103-21-124-76.ngrok-free.";
+const url = "://8e25-103-21-124-76.ngrok-free";
 interface RegisterCallResponse {
   callId?: string;
   sampleRate: number;
