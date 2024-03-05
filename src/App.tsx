@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import { RetellWebClient } from "retell-client-js-sdk";
 
-const agentId = "2bdf374f49ace95727f1f9f5b39f539b";
+const agentId = "99abd5d95fedb82c7bdf628680145174";
 const url = "://8e25-103-21-124-76.ngrok-free.app";
 interface RegisterCallResponse {
   callId?: string;
@@ -126,9 +126,9 @@ const App = () => {
     <div className="App">
       <h2>On call with Taha about Phonepe</h2>
       <select onChange={handleModelChange}>
+        <option value="mixtral-8x7b-32768">Mixtral</option>
         <option value="llama2-70b-4096">Llama-70b</option>
         <option value="gpt-4-1106-preview">GPT-4</option>
-        <option value="mixtral-8x7b-32768">Mixtral</option>
       </select>
       <header className="App-header">
         <button onClick={toggleConversation}>
