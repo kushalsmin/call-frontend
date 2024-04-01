@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import { RetellWebClient } from "retell-client-js-sdk";
 
-const agentId = "99abd5d95fedb82c7bdf628680145174";
-const url = "://f1ae-103-21-124-76.ngrok-free.app";
+const agentId = "90e1bb1d626d3a2730250251c762d624";//a72f237cb17f0c0a1df2d17045b29ab5
+const url = "://2ff2-103-21-124-76.ngrok-free.app";
 interface RegisterCallResponse {
   callId?: string;
   sampleRate: number;
@@ -15,7 +15,7 @@ const conversation = [{'role':'agent','content':'Red is the Assitant transcripti
 const App = () => {
   const [isCalling, setIsCalling] = useState(false);
   const [convo, setConvo] = useState<any>(null);
-  const [selectedModel, setSelectedModel] = useState("llama2-70b-4096");
+  const [selectedModel, setSelectedModel] = useState("gpt-4-1106-preview");
 
   const handleModelChange = (event) => {
   setSelectedModel(event.target.value);
@@ -124,11 +124,13 @@ const App = () => {
 
   return (
     <div className="App">
-      <h2>On call with Taha about Phonepe</h2>
+      <h2>On call with Taha about Hersheys</h2>
       <select onChange={handleModelChange}>
-        <option value="mixtral-8x7b-32768">Mixtral</option>
-        <option value="llama2-70b-4096">Llama-70b</option>
+        {/* <option value="claude-3-haiku-20240307" >Claude 3 Haiku</option> */}
         <option value="gpt-4-1106-preview">GPT-4</option>
+        <option value="gpt-3.5-turbo-0125">GPT-3</option>
+        <option value="mixtral-8x7b-32768">Mixtral</option>
+        
       </select>
       <header className="App-header">
         <button onClick={toggleConversation}>
